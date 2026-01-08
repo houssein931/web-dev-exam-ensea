@@ -4,12 +4,6 @@
 // Ce fichier contient toutes les fonctions de manipulation du DOM
 // et de génération de HTML
 //
-// IMPORTANT: Ce fichier est FOURNI COMPLET aux étudiants
-// Il sert de référence pour comprendre la séparation des responsabilités:
-// - ui.js génère du HTML
-// - main.js manipule le DOM
-// - api.js communique avec le serveur
-
 // ============================================
 // GÉNÉRER UNE CARD BOOTSTRAP POUR UNE RECETTE
 // ============================================
@@ -21,7 +15,6 @@
 export const renderRecipeCard = (recipe) => {
 	// Extraire et formater les ingrédients (prendre les 3 premiers)
 	const ingredientsList = recipe.ingredients
-
 		.filter((ing) => ing.trim() !== "")
 		.slice(0, 3)
 		.map((ing) => `<li class="text-muted small">${ing.trim()}</li>`)
@@ -138,66 +131,3 @@ export const displayMessage = (container, message, type = "info") => {
 	`
 	container.innerHTML = alertHTML
 }
-
-// ============================================
-// NOTES POUR LES ÉTUDIANTS
-// ============================================
-/*
-SÉPARATION DES RESPONSABILITÉS:
-
-Ce fichier (ui.js) ne fait QUE générer du HTML (strings).
-Il ne touche JAMAIS directement au DOM.
-
-Le fichier main.js utilise ces fonctions pour:
-1. Générer le HTML avec renderRecipeCard()
-2. L'insérer dans le DOM avec innerHTML
-
-EXEMPLE D'UTILISATION:
-
-// Dans main.js
-import { renderRecipeCard } from './ui.js'
-
-const displayRecipe = (recipe) => {
-	const html = renderRecipeCard(recipe)  // Génère le HTML
-	container.innerHTML += html            // Insère dans le DOM
-}
-
-AVANTAGES DE CETTE APPROCHE:
-
-1. TESTABILITÉ: On peut tester renderRecipeCard() sans navigateur
-2. RÉUTILISABILITÉ: La même fonction peut être utilisée partout
-3. MAINTENANCE: Si on change le design, on modifie juste ui.js
-4. SÉPARATION: ui.js ne connaît pas l'API, main.js ne connaît pas le HTML
-
-PATTERN DES FONCTIONS UI:
-
-- Prennent des données en paramètre
-- Retournent du HTML (string)
-- Ne font PAS d'effets de bord
-- Sont des fonctions pures (même input = même output)
-
-TEMPLATE STRINGS:
-
-Les backticks (`) permettent:
-- Multi-lignes: utile pour le HTML
-- Interpolation: ${variable} insère des valeurs
-- Expressions: ${condition ? 'oui' : 'non'}
-
-BOOTSTRAP CLASSES UTILISÉES:
-
-- card, card-body: Structure de base
-- h-100: Hauteur 100% (cards égales)
-- shadow-sm: Ombre légère
-- d-flex, flex-column: Flexbox vertical
-- mb-3, mt-auto: Marges (spacing)
-- btn-primary, w-100: Bouton pleine largeur
-- badge: Étiquettes colorées
-- text-muted, small: Texte secondaire
-
-SVG ICONS:
-
-Bootstrap Icons en SVG inline:
-- Pas besoin de fichiers externes
-- Styling avec CSS possible
-- Performant et responsive
-*/
