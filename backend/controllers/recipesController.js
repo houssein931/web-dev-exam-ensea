@@ -30,7 +30,14 @@ export const getRecipes = (req, res) => {
 
 export const getRecipeById = (req, res) => {
 	try {
-		// Votre code ici
+		const recipes = readRecipes(recipesPath)
+		const id = parseInt(req.params.id)
+		const recipe = recipes.find(r => r.id === id)
+		if (recipe) {
+			res.json(recipe)
+		} else {
+			res.status(404).json({ error: "Recette non trouvée" })
+		}
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
