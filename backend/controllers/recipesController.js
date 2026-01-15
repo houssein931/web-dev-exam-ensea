@@ -53,12 +53,16 @@ export const getRecipeById = (req, res) => {
 //    - toutes les propriétés de req.body (name, ingredients, instructions, prepTime, etc.)
 //    Conseil: utilisez l'opérateur spread { id: Date.now(), ...req.body }
 // 3. Ajouter la nouvelle recette au tableau de recettes (utilisez .push())
-// 4. Sauvegarder le tableau modifié avec writeRecipes(recipesPath, recipes)
+// 4. Sauvegarder le tableau modifié avec writeRecipes(recipes, recipesPath)
 // 5. Renvoyer la recette créée avec le status 201 (Created)
 
 export const createRecipe = (req, res) => {
 	try {
-		// Votre code ici
+		const recipes = readRecipes(recipesPath)
+		const newRecipe = { id: Date.now(), ...req.body }
+		recipes.push(newRecipe)
+		writeRecipes(recipes, recipesPath)
+		res.status(201).json(newRecipe)
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
