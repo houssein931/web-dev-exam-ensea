@@ -147,7 +147,19 @@ export const deleteRecipe = (req, res) => {
 
 export const searchRecipes = (req, res) => {
 	try {
-		// Votre code ici (BONUS)
+		const recipes = readRecipes(recipesPath)
+		const { search } = req.query
+
+		if (!search) {
+			return res.json(recipes)
+		}
+
+		const lowerSearch = search.toLowerCase()
+		const filtered = recipes.filter(recipe =>
+			recipe.name.toLowerCase().includes(lowerSearch)
+		)
+
+		res.json(filtered)
 	} catch (error) {
 		res.status(500).json({ error: error.message })
 	}
