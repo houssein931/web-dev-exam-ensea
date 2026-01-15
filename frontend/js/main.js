@@ -1,7 +1,12 @@
 // ============================================
 // IMPORTS - Modules nécessaires
 // ============================================
-import { getAllRecipes, createRecipe } from "./api.js"
+import {
+	getAllRecipes,
+	createRecipe,
+	searchRecipes,
+	deletOneRecipe,
+} from "./api.js"
 import { renderRecipeCard, clearRecipesList } from "./ui.js"
 
 // ============================================
@@ -78,9 +83,19 @@ const displayRecipes = (recipes) => {
 const setupEventListeners = () => {
 	// Event listener pour le formulaire d'ajout de recette
 	const addRecipeForm = document.getElementById("addRecipeForm")
+	const searchInput = document.getElementById("searchInput")
+	const recipesContainer = document.getElementById("recipes-container")
 
 	if (addRecipeForm) {
 		addRecipeForm.addEventListener("submit", handleAddRecipe)
+	}
+
+	if (searchInput) {
+		searchInput.addEventListener("input", handleSearchInput)
+	}
+
+	if (recipesContainer) {
+		recipesContainer.addEventListener("click", handleRecipesContainerClick)
 	}
 }
 
@@ -124,5 +139,60 @@ export const handleAddRecipe = async (event) => {
 	} catch (error) {
 		console.error("Erreur lors de l'ajout de la recette:", error)
 		alert("Erreur lors de l'ajout de la recette. Veuillez réessayer.")
+	}
+}
+
+// ============================================
+// RECHERCHE DE RECETTES
+// ============================================
+
+const handleSearchInput = async (event) => {
+	const term = event.target.value.trim()
+
+	try {
+		const recipes = await searchRecipes(term)
+		displayRecipes(recipes)
+	} catch (error) {
+		console.error("Erreur lors de la recherche de recettes:", error)
+		alert(
+			"Impossible de rechercher les recettes. Vérifiez que le serveur est démarré."
+		)
+	}
+}
+
+// ============================================
+// GESTION DES BOUTONS MODIFIER / SUPPRIMER
+// ============================================
+
+const handleRecipesContainerClick = async (event) => {
+	const deleteButton = event.target.closest(".btn-delete-recipe")
+	const editButton = event.target.closest(".btn-edit-recipe")
+
+	if (deleteButton) {
+		const recipeId = deleteButton.dataset.recipeId
+		if (!recipeId) return
+
+		const confirmDelete = confirm(
+			"Êtes-vous sûr de vouloir supprimer cette recette ?"
+		)
+		if (!confirmDelete) return
+
+		try {
+			await deletOneRecipe(recipeId)
+			alert("Recette supprimée avec succès.")
+			loadRecipes()
+		} catch (error) {
+			console.error("Erreur lors de la suppression de la recette:", error)
+			alert("Erreur lors de la suppression de la recette.")
+		}
+	}
+
+	if (editButton) {
+		const recipeId = editButton.dataset.recipeId
+		if (!recipeId) return
+
+		// Pour rester simple, on redirige vers la page de détail
+		// où une future édition pourrait être implémentée.
+		window.location.href = `recipe.html?id=${recipeId}`
 	}
 }

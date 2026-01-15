@@ -133,3 +133,32 @@ export const deletOneRecipe = async (recipeId) => {
 		throw error
 	}
 }
+
+// ============================================
+// SEARCH RECIPES
+// ============================================
+
+/**
+ * Recherche des recettes par nom via l'API
+ * @param {string} searchTerm - Terme de recherche
+ * @returns {Promise<Array>} - Recettes filtrées
+ */
+export const searchRecipes = async (searchTerm) => {
+	try {
+		const url = searchTerm
+			? `${API_BASE_URL}/search?search=${encodeURIComponent(searchTerm)}`
+			: `${API_BASE_URL}/search`
+
+		const response = await fetch(url)
+
+		if (!response.ok) {
+			throw new Error(`Erreur HTTP: ${response.status}`)
+		}
+
+		const recipes = await response.json()
+		return recipes
+	} catch (error) {
+		console.error("Erreur lors de la recherche de recettes:", error)
+		throw error
+	}
+}

@@ -85,12 +85,42 @@
 		<!-- ============================================ -->
 		<main class="container">
 			<!-- Header Section -->
-			<div class="row mb-4">
+			<div class="row mb-3">
 				<div class="col-12">
 					<h1 class="display-4 text-center mb-3">Livre de Recettes</h1>
 					<p class="lead text-center text-muted">
 						Découvrez et gérez vos recettes préférées
 					</p>
+				</div>
+			</div>
+
+			<!-- Search bar -->
+			<div class="row mb-4">
+				<div class="col-md-6 mx-auto">
+					<div class="input-group">
+						<span class="input-group-text" id="search-addon">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								fill="currentColor"
+								class="bi bi-search"
+								viewBox="0 0 16 16"
+							>
+								<path
+									d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242.656a5 5 0 1 1 0-10 5 5 0 0 1 0 10"
+								/>
+							</svg>
+						</span>
+						<input
+							type="text"
+							class="form-control"
+							id="searchInput"
+							placeholder="Rechercher une recette par nom..."
+							aria-label="Rechercher une recette"
+							aria-describedby="search-addon"
+						/>
+					</div>
 				</div>
 			</div>
 
